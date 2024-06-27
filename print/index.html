@@ -3,6 +3,16 @@
     <div class='readable-background padding layer margin-bottom-large'>
 		<h4 class='collapsible collapsed center padding margin-bottom' onclick='toggleCollapse(event);'>Configure Page Settings</h4>
         <div>
+    		<h5 class='margin-bottom padding input-description'>Select the margins</h5>
+            <input type='number' id='marginx' class='input margin-bottom' value='0' min='-500' onchange='setMarginX(this.value);'>
+            <input type='number' id='marginy' class='input margin-bottom' value='0' min='-500' onchange='setMarginY(this.value);'>
+
+			<h5 class='margin-bottom padding input-description'>Center cards</h5>
+            <label class='checkbox-container input margin-bottom'>Yes
+                <input id='bleedEdgeCheckbox' type='checkbox' onchange='setCenter(this.checked);' checked>
+                <span class='checkmark'></span>
+            </label>
+
     		<h5 class='margin-bottom padding input-description'>Select your paper size</h5>
     		<select onchange='setPageSize(this.value.split(","));' class='input margin-bottom'>
     			<option value='8.5,11'>Letter (8.5 by 11)</option>

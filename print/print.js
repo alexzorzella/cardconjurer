@@ -1,3 +1,9 @@
+
+var marginX = 0;
+var marginY = 0;
+
+var center = true;
+
 //Configure sizes
 var ppi = 600;
 var page = [8.5, 11];
@@ -59,12 +65,12 @@ function drawSheetReal() {
     var count = 0;
     if (useCuttingAids) {
         for (var i = 0; i < cardsX; i++) {
-            var x = pageMarginX + i * cw + Math.floor(cardMarginX / 2) + cardPaddingX - aidOffset;
+            var x = marginX + i * cw + Math.floor(cardMarginX / 2) + cardPaddingX - aidOffset;
             context.fillRect(x,  0, aidWidth, page[1] * ppi);
             context.fillRect(x + cardWidth, 0, aidWidth, page[1] * ppi);
         }
         for (var j = 0; j < cardsY; j++) {
-            var y = pageMarginY + j * ch + Math.floor(cardMarginY / 2) + cardPaddingY - aidOffset;
+            var y = marginY + j * ch + Math.floor(cardMarginY / 2) + cardPaddingY - aidOffset;
             context.fillRect(0, y, page[0] * ppi, aidWidth);
             context.fillRect(0, y + cardHeight, page[0] * ppi, aidWidth);
         }
@@ -75,8 +81,21 @@ function drawSheetReal() {
         if (imageList[i].width > 1) {
             try {
                 //Calc upper-left corner of card *image* (accounts for bleed edge and margins)
-                var x = pageMarginX + (count % cardsX)                      * (cw) + Math.floor(cardMarginX / 2) + cardPaddingX;
-                var y = pageMarginY + (Math.floor(count / cardsX) % cardsY) * (ch) + Math.floor(cardMarginY / 2) + cardPaddingY;
+				var finalMarginX;
+				var finalMarginY;
+				
+				if(center)
+				{
+					finalMarginX = pageMarginX;
+					finalMarginY = pageMarginY;
+				} else
+				{
+					finalMarginX = marginX;
+					finalMarginY = marginY;
+				}
+				
+				var x = finalMarginX + (count % cardsX)                      * (cw) + Math.floor(cardMarginX / 2) + cardPaddingX;
+                var y = finalMarginY + (Math.floor(count / cardsX) % cardsY) * (ch) + Math.floor(cardMarginY / 2) + cardPaddingY;
                 var w = cardWidth;
                 var h = cardHeight;
                 if (imgIncludesBleedEdge) {
@@ -173,6 +192,19 @@ function downloadPDF() {
     }
     doc.save('print.pdf');
 }
+
+function setMarginX(marginX) {
+    this.marginX = marginX;
+}
+
+function setMarginY(marginY) {
+    this.marginY = marginY;
+}
+
+function setCenter(center) {
+    this.center = center;
+}
+
 //Manages page
 function setPageSize(size = [8.5, 11]) {
     page[0] = parseFloat(size[0]);
